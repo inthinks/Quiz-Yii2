@@ -6,7 +6,7 @@ Soal no 1 sort file usia.txt
 Soal no 2. Website sederhana quiz 
 
 - composer install
-- add database named "quiz"
+- add database named "kuis"
 - please run php yii migrate on console
 - run php yii serve
 - access localhost:8080
