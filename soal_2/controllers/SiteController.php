@@ -64,7 +64,7 @@ class SiteController extends Controller {
     public function actionIndex() {
         $model = new \app\models\SubmitForm();
         $session = Yii::$app->session;
-        if ($model->load(Yii::$app->request->post()) && $model->validateToken()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $session->set('token', $model->token);
             return $this->redirect(['start-excercise']);
         }
@@ -126,10 +126,12 @@ class SiteController extends Controller {
                 ->orderBy('score ASC')
                 ->one();
         $deviasi = 0;
+        if ($summary['total_siswa'] > 1){
                 foreach(StudentsCrud::find()->select('score')->asArray()->all() as $list){
                     $sDev = pow(($list['score'] - $summary['rata_rata']), 2);
                     $deviasi += ($sDev / ($summary['total_siswa'] - 1));
                 }
+        }
         return $this->render('summary', [
                 'summary' => $summary,
                 'min' => $nilaiMax,
@@ -147,7 +149,7 @@ class SiteController extends Controller {
         $student = StudentsCrud::findOne(['token' => Yii::$app->session->get('token')]);
         if(!Yii::$app->session->get('token') || $student->is_complete){
             Yii::$app->getSession()->setFlash('submit', 'Submit was completed');
-            $this->redirect('index');
+            return $this->redirect('index');
         }
         
         $post = Yii::$app->request->post();
