@@ -8,6 +8,7 @@ use app\models\search\StudentAnswersSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * StudentAnswersController implements the CRUD actions for StudentAnswersCrud model.
@@ -20,6 +21,17 @@ class StudentAnswersController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['create', 'index', 'view', 'update'],
+                'rules' => [
+                    [
+                        'actions' => ['create', 'index', 'view', 'update'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

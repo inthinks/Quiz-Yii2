@@ -10,7 +10,7 @@ use app\models\StudentsCrud;
 class SubmitForm extends Model
 {
     public $token;
-
+    public $message = 'Invalid token input.';
 
     /**
      * @return array the validation rules.
@@ -19,11 +19,13 @@ class SubmitForm extends Model
     {
         return [
             ['token', 'required'],
-            ['token', 'exist', 'targetClass' => StudentsCrud::className(), 'targetAttribute' => 'token']
+            ['token', 'validateToken']
         ];
     }
     
     public function validateToken(){
-        return StudentsCrud::findOne(['token' => $this->token]) ? true : null;
+        if(!StudentsCrud::findOne(['token' => $this->token])){
+            $this->addError('token', $this->message);
+        }
     }
 }
