@@ -1,9 +1,4 @@
-# DynEd-TechnicalAssesment-Indra
-Technical assesment DynEd 
-
-Soal no 1 sort file usia.txt
-
-Soal no 2. Website sederhana quiz 
+Website sederhana quiz 
 
 - composer install
 - add database named "kuis"
